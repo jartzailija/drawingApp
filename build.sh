@@ -1,0 +1,1 @@
+ g++ -std=c++14 main.cpp src/Canvas.cpp src/coordinates.cpp -ltgui -lsfml-graphics -lsfml-window -lsfml-system -o program && ./program

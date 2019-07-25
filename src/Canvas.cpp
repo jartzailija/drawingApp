@@ -10,6 +10,8 @@ Canvas::Canvas(sf::RenderWindow& pWindow, sf::Vector2<int> pTextureDimensions, i
   if(!canvasTexture.create(textureDimensions.x, textureDimensions.y)) {
     std::cout << "Victor Mike" << std::endl;
   }
+
+  canvasTexture.clear(sf::Color::White);
 }
 
 Canvas::~Canvas() {
@@ -22,7 +24,18 @@ void Canvas::save(std::string fileName) {
   image.saveToFile(fileName);
 }
 
-bool Canvas::isInsideborders(sf::Vector2f cursorCoords) {
+bool Canvas::loadImage(std::string fileName) {
+  sf::Texture tmpTexture;
+  if(!tmpTexture.loadFromFile(fileName)) {
+    return false;
+  }
+  sf::Sprite sprite(tmpTexture);
+  //sprite.setOrigin(coords.left, -coords.top);
+  canvasTexture.draw(sprite);
+  return true;
+}
+
+bool Canvas::isInsideborders(sf::Vector2f cursorCoords) const {
   if(!coords.valid) {
     return false;
   }
@@ -62,7 +75,7 @@ void Canvas::render() {
 }
 
 //TODO: tsekkaa ylärajan toimivuus, ettei mee toolbarin kaa päällekkäin
-Coordinates Canvas::calculateCoords(sf::Vector2i textureDimensions, int upperLimit) {
+Coordinates Canvas::calculateCoords(sf::Vector2i textureDimensions, int upperLimit) const {
   struct Coordinates coords;
   coords.top = upperLimit;
   coords.bottom = upperLimit + textureDimensions.y;

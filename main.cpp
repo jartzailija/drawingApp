@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include "src/Canvas.h"
 
@@ -11,6 +12,7 @@ const int width = 1280;
 const int height = 800;
 const int toolbarHeight = 50;
 const sf::Vector2i canvasDimensions = sf::Vector2i(width, height - toolbarHeight);
+const std::string fileName = "image.png";
 
 void selectPen() {
   std::cout << "Jeejee" << std::endl;
@@ -39,13 +41,9 @@ void loadWidgets( tgui::Gui& gui ) {
   gui.add(panel);
 }
 
-void save() {
-
-}
-
 int main() {
   sf::RenderWindow window({width, height}, "Window", sf::Style::Close);
-  tgui::Gui gui(window); // Create the gui and attach it to the window
+  tgui::Gui gui(window);
   std::vector<sf::Vertex> lineCoords;
   sf::Color lineColor = sf::Color::Black;
   Canvas canvas(window, canvasDimensions, toolbarHeight);
@@ -60,6 +58,8 @@ int main() {
       return 1;
   }
 
+  canvas.loadImage(fileName);
+
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -72,7 +72,7 @@ int main() {
           canvas.tellMouseCoords(mousePosition);
         }
         else {
-          canvas.save("image.png");
+          canvas.save(fileName);
         }
       }
 

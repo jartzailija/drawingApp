@@ -1,12 +1,14 @@
-#include <TGUI/TGUI.hpp>
-#include <TGUI/Widgets/Panel.hpp>
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 
 #include "src/Canvas.h"
+#include "src/Pencil.h"
+#include "src/ToolBar.h"
+#include "src/State.h"
 
 const int width = 1280;
 const int height = 800;
@@ -14,54 +16,18 @@ const int toolbarHeight = 50;
 const sf::Vector2i canvasDimensions = sf::Vector2i(width, height - toolbarHeight);
 const std::string fileName = "image.png";
 
-void selectPen() {
-  std::cout << "Jeejee" << std::endl;
-}
-
-void loadWidgets( tgui::Gui& gui ) {
-  /* auto button = tgui::Button::create("Pen");
-  button->setSize({"50%", "16.67%"});
-  button->setPosition({"0%", "0%"});
-  //gui.add(button);
-
-  // Call the login function when the button is pressed and pass the edit boxes that we created as parameters
-  button->connect("pressed", selectPen);*/
-
-  auto panel = tgui::Panel::create();
-  panel->setPosition(0, 0);
-  panel->setSize(width, toolbarHeight);
-  //panel->setBackgroundColor(sf::Color(200, 200, 200));
-  for (unsigned int i = 0; i < 5; i++) {
-    //std::cout << i << std::endl;
-    auto button = tgui::Button::create("Button");
-    button->setSize(50, 20);
-    button->setPosition((i + 1) * 50, 0);
-    panel->add(button);
-  }
-  gui.add(panel);
-}
-
 int main() {
   sf::RenderWindow window({width, height}, "Window", sf::Style::Close);
-  tgui::Gui gui(window);
+  ToolBar toolbar(window, width, toolbarHeight);
   std::vector<sf::Vertex> lineCoords;
   sf::Color lineColor = sf::Color::Black;
-  Canvas canvas(window, canvasDimensions, toolbarHeight);
-  tgui::Theme theme{"src/themes/default.txt"};
-  tgui::Theme::setDefault(&theme);
-
-  try {
-      loadWidgets(gui);
-    }
-  catch (const tgui::Exception& e) {
-      std::cerr << "Failed to load TGUI widgets: " << e.what() << std::endl;
-      return 1;
-  }
+  Canvas canvas(window, canvasDimensions, toolbarHeight, toolbar);
 
   canvas.loadImage(fileName);
 
   while (window.isOpen()) {
     sf::Event event;
+    canvas.checkStatus();
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
@@ -76,13 +42,12 @@ int main() {
         }
       }
 
-      gui.handleEvent(event); // Pass the event to the widgets
+      toolbar.handleEvent(event);
     }
 
     window.clear(sf::Color(255, 255, 255));
-    gui.draw(); // Draw all widgets
+    toolbar.render();
     canvas.render();
     window.display();
-    //std::cout << "Jeejee" << std::endl;
   }
 }

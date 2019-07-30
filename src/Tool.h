@@ -6,12 +6,12 @@
 
 class Tool {
   public:
-  Tool(std::string name);
+  Tool();
   virtual ~Tool();
   virtual void draw(sf::RenderWindow& window, sf::Vector2f cursorCoords, sf::Color color);
 
   protected:
-  std::string name;
+  //std::string name;
 
 };
 

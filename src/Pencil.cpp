@@ -1,9 +1,7 @@
 #include "Pencil.h"
 
-/*
-Pencil::Pencil(std::string pName) {
-  name = pName;
-}*/
+Pencil::Pencil() {
+}
 
 Pencil::~Pencil() {
 }

@@ -1,11 +1,12 @@
 #include "Canvas.h"
 
-Canvas::Canvas(sf::RenderWindow& pWindow, sf::Vector2<int> pTextureDimensions, int pUpperLimit): window(pWindow) {
+Canvas::Canvas(sf::RenderWindow& pWindow, sf::Vector2<int> pTextureDimensions, int pUpperLimit, ToolBar& pToolbar)
+  : window(pWindow), toolbar(pToolbar) {
   textureDimensions = pTextureDimensions;
   upperLimit = pUpperLimit;
-
   coords = calculateCoords(pTextureDimensions, pUpperLimit);
   selectedColor = sf::Color::Black;
+  selectedTool = toolbar.getSelectedTool();
   //TODO: add try-catch
   if(!canvasTexture.create(textureDimensions.x, textureDimensions.y)) {
     std::cout << "Victor Mike" << std::endl;
@@ -65,6 +66,21 @@ void Canvas::preRender() {
     canvasTexture.draw(&lineCoords[0], lineCoords.size(), sf::Lines);
   }
   canvasTexture.display();
+}
+
+//Save changes as a solid part to the canvas 
+void Canvas::attachChanges() {
+  preRender();
+  sf::Texture texture = canvasTexture.getTexture();
+  sf::Sprite sprite(texture);
+  canvasTexture.draw(sprite);
+}
+
+void Canvas::checkStatus() {
+  if(selectedTool != toolbar.getSelectedTool()) {
+    selectedTool = toolbar.getSelectedTool();
+    attachChanges();
+  }
 }
 
 void Canvas::render() {

@@ -1,11 +1,11 @@
 #include "Pencil.h"
 
-Pencil::Pencil() {
+Pencil::Pencil(std::string pName) : Tool(pName) {
 }
 
 Pencil::~Pencil() {
 }
 
-void Pencil::draw(sf::RenderWindow& window, sf::Vector2f cursorCoords, sf::Color color) {
+void Pencil::draw(sf::RenderTexture& renderTexture, sf::Vector2f cursorCoords, sf::Color color) {
   
 }

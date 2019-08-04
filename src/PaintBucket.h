@@ -8,12 +8,9 @@
 
 class PaintBucket : public Tool {
   public:
-  PaintBucket();
-  virtual ~PaintBucket();
-  virtual void draw(sf::RenderWindow& window, sf::Vector2f cursorCoords, sf::Color color);
-
-  private:
-  //std::string name;
+  PaintBucket(std::string name);
+  ~PaintBucket();
+  void draw(sf::RenderTexture& renderTexture, sf::Vector2f cursorCoords, sf::Color color) override;
 
 };
 

@@ -8,12 +8,9 @@
 
 class Pencil : public Tool {
   public:
-  Pencil();
-  virtual ~Pencil();
-  virtual void draw(sf::RenderWindow& window, sf::Vector2f cursorCoords, sf::Color color);
-
-  private:
-  //std::string name;
+  Pencil(std::string name);
+  ~Pencil();
+  void draw(sf::RenderTexture& renderTexture, sf::Vector2f cursorCoords, sf::Color color) override;
 
 };
 

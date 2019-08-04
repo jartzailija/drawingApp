@@ -35,7 +35,7 @@ class Canvas {
   std::vector<sf::Vertex> lineCoords;
   sf::RenderTexture canvasTexture;
   ToolBar& toolbar;
-  Tool* selectedTool;
+  std::string selectedToolName;
   std::vector<sf::Drawable> drawings; //TODO: jatka tästä!
 };
 

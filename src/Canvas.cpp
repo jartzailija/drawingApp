@@ -6,7 +6,7 @@ Canvas::Canvas(sf::RenderWindow& pWindow, sf::Vector2<int> pTextureDimensions, i
   upperLimit = pUpperLimit;
   coords = calculateCoords(pTextureDimensions, pUpperLimit);
   selectedColor = sf::Color::Black;
-  selectedTool = toolbar.getSelectedTool();
+  selectedToolName = toolbar.getSelectedTool().getName();
   //TODO: add try-catch
   if(!canvasTexture.create(textureDimensions.x, textureDimensions.y)) {
     std::cout << "Victor Mike" << std::endl;
@@ -31,7 +31,6 @@ bool Canvas::loadImage(std::string fileName) {
     return false;
   }
   sf::Sprite sprite(tmpTexture);
-  //sprite.setOrigin(coords.left, -coords.top);
   canvasTexture.draw(sprite);
   return true;
 }
@@ -55,13 +54,22 @@ bool Canvas::isInsideborders(sf::Vector2f cursorCoords) const {
 
 void Canvas::tellMouseCoords(sf::Vector2f cursorCoords) {
   sf::Vector2f transformedCoords(cursorCoords.x - coords.left, cursorCoords.y - coords.top);
-  lineCoords.push_back(sf::Vertex(transformedCoords, selectedColor));
-  if(lineCoords.size() > 1) {
+  std::cout << toolbar.getSelectedTool().getName() << std::endl;
+  if(toolbar.getSelectedTool().getName() == "PaintBucket") {
+    toolbar.getSelectedTool().draw(canvasTexture, transformedCoords, selectedColor);
+  }
+  else if(lineCoords.size() > 1) {
+    lineCoords.push_back(sf::Vertex(transformedCoords, selectedColor));
     lineCoords.push_back(sf::Vertex(transformedCoords, selectedColor));
   }
 }
 
+//TODO: hienosäädä
 void Canvas::preRender() {
+  if(toolbar.getSelectedTool().getName() == "PaintBucket") {
+    //std::cout << "Jeejee" << std::endl;
+  }
+
   if(lineCoords.size() > 0) {
     canvasTexture.draw(&lineCoords[0], lineCoords.size(), sf::Lines);
   }
@@ -77,8 +85,8 @@ void Canvas::attachChanges() {
 }
 
 void Canvas::checkStatus() {
-  if(selectedTool != toolbar.getSelectedTool()) {
-    selectedTool = toolbar.getSelectedTool();
+  if(selectedToolName != toolbar.getSelectedTool().getName()) {
+    selectedToolName = toolbar.getSelectedTool().getName();
     attachChanges();
   }
 }

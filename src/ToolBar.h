@@ -1,8 +1,9 @@
 #ifndef TOOLBAR_H
 #define TOOLBAR_H
 
-#include <string>
+//#include <string>
 #include <iostream>
+#include <vector>
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Widgets/Panel.hpp>
 
@@ -14,7 +15,7 @@ class ToolBar {
   public:
   ToolBar(sf::RenderWindow& window, int width, int toolbarHeight);
   ~ToolBar();
-  Tool* getSelectedTool();
+  Tool& getSelectedTool();
   void render();
   void handleEvent(sf::Event event);
 
@@ -24,7 +25,7 @@ class ToolBar {
   void selectTool(Tool* tool);
 
   Tool* selectedTool;
-  std::map<std::string, Tool*> tools;
+  std::vector<Tool*> tools;
   int toolbarHeight;
   int width;
   sf::RenderWindow& window;

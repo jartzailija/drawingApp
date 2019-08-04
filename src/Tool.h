@@ -11,6 +11,7 @@ class Tool {
   Tool();
   virtual ~Tool();
   //virtual void draw(sf::RenderWindow& window, sf::Vector2f cursorCoords, sf::Color color) = 0;
+  //TODO: Laita palauttamaan RenderTexture selkeyden vuoksi
   virtual void draw(sf::RenderTexture& renderTexture, sf::Vector2f cursorCoords, sf::Color color) = 0;
   virtual std::string getName();
 

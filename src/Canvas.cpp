@@ -5,7 +5,7 @@ Canvas::Canvas(sf::RenderWindow& pWindow, sf::Vector2<int> pTextureDimensions, i
   textureDimensions = pTextureDimensions;
   upperLimit = pUpperLimit;
   coords = calculateCoords(pTextureDimensions, pUpperLimit);
-  selectedColor = sf::Color::Black;
+  selectedColor = sf::Color::White;
   selectedToolName = toolbar.getSelectedTool().getName();
   //TODO: add try-catch
   if(!canvasTexture.create(textureDimensions.x, textureDimensions.y)) {

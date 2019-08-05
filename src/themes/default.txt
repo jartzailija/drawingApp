@@ -1,3 +1,18 @@
 Panel {
 	BackGroundColor = rgb(255, 00, 00);
 }
+
+ColorModal {
+	BackGroundColor = rgb(00, 00, 00);
+}
+
+Button {
+	BackGroundColor = rgb(255, 255, 255);
+	TextColor = rgb(00, 00, 00);
+}
+
+ChildWindow {
+	BackGroundColor = rgb(255, 255, 255);
+	BorderColor = Black;
+	Borders = (1, 1, 1, 1);
+}

@@ -19,7 +19,6 @@ class Canvas {
   bool isInsideborders(sf::Vector2f cursorCoords) const;
   void render();
   bool loadImage(std::string filename);
-  void checkStatus();
 
   private:
   Coordinates calculateCoords(sf::Vector2i textureDimensions, int upperLimit) const;
@@ -31,11 +30,9 @@ class Canvas {
   sf::Vector2i textureDimensions;
   Coordinates coords; 
   int upperLimit;
-  sf::Color selectedColor;
   std::vector<sf::Vertex> lineCoords;
   sf::RenderTexture canvasTexture;
   ToolBar& toolbar;
-  std::string selectedToolName;
   bool wasMousePreviouslyPressed;
 };
 

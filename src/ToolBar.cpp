@@ -29,6 +29,7 @@ ToolBar::~ToolBar() {
 }
 
 void ToolBar::initTools() {
+  someModalOpen = false;
   Pencil* pencil = new Pencil("Pencil");
   PaintBucket* paintBucket = new PaintBucket("PaintBucket");
   tools.push_back(pencil);
@@ -47,20 +48,89 @@ void ToolBar::selectTool(Tool* tool) {
   selectedTool = tool;
 }
 
+void ToolBar::loadTools(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
+  int i = 0;
+  for (auto itr = tools.begin(); itr != tools.end(); itr++) {
+    auto button = tgui::Button::create((*itr)->getName());
+    button->setSize(100, 20);
+    button->setPosition((i) * 100, 0);
+    button->connect("pressed", [=](){selectTool(*itr);});
+    panel->add(button);
+    i++;
+  }
+}
+
+void ToolBar::loadOtherButtons(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
+  auto button = tgui::Button::create("Color");
+  button->setSize(100, 20);
+  button->setPosition(0, 20);
+  button->connect("pressed", [=](){
+    colorModal->setVisible(true);
+    someModalOpen = true;
+  });   
+  panel->add(button);
+}
+
+void ToolBar::loadColorSelector(tgui::Gui& gui) {
+  
+  colorModal = tgui::ChildWindow::create();
+  colorModal->setSize(100, 50);
+  colorModal->setPosition(200, 0);
+  colorModal->setTitle("Select color");
+  colorModal->setVisible(false);
+
+  auto colorPanel = tgui::Panel::create();
+  colorPanel->setPosition(0, 0);
+  colorPanel->setSize(100, 50);
+  colorPanel->add(createColorButton(gui, 0, 0, tgui::Color::Black));
+  colorPanel->add(createColorButton(gui, 1, 0, tgui::Color::White));
+  colorPanel->add(createColorButton(gui, 2, 0, tgui::Color::Red));
+  colorPanel->add(createColorButton(gui, 3, 0, tgui::Color::Green));
+  colorPanel->add(createColorButton(gui, 0, 1, tgui::Color::Blue));
+  colorPanel->add(createColorButton(gui, 1, 1, tgui::Color::Yellow));
+  colorPanel->add(createColorButton(gui, 2, 1, tgui::Color::Magenta));
+  colorPanel->add(createColorButton(gui, 3, 1, tgui::Color::Cyan));
+  
+
+  colorModal->add(colorPanel);
+  gui.add(colorModal);
+}
+
+std::shared_ptr<tgui::Button> ToolBar::createColorButton(tgui::Gui& gui, int x, int y, tgui::Color color) {
+  auto button = tgui::Button::create();
+  button->setPosition(x * 25, y * 25);
+  button->setSize(25, 25);
+
+  tgui::ButtonRenderer br;
+  br.setBackgroundColor(color);
+  button->setRenderer(br.getData());
+  button->connect("pressed", [=](){
+    setColor(color);
+    colorModal->setVisible(false);
+    someModalOpen = false;
+  });
+
+  return button;
+}
 
 void ToolBar::loadWidgets(tgui::Gui& gui) {
   auto panel = tgui::Panel::create();
   panel->setPosition(0, 0);
   panel->setSize(width, toolbarHeight);
-
-  int i = 0;
-  for (auto itr = tools.begin(); itr != tools.end(); itr++) {
-    auto button = tgui::Button::create((*itr)->getName());
-    button->setSize(50, 20);
-    button->setPosition((i + 1) * 50, 0);
-    button->connect("pressed", [=](){selectTool(*itr);});
-    panel->add(button);
-    i++;
-  }
+  loadTools(gui, panel);
+  loadOtherButtons(gui, panel);
   gui.add(panel);
+  loadColorSelector(gui);
+}
+
+bool ToolBar::isSomeModalOpen() {
+  return someModalOpen;
+}
+
+void ToolBar::setColor(tgui::Color color) {
+  selectedColor = color;
+}
+
+sf::Color ToolBar::getSelectedColor() {
+  return selectedColor;
 }

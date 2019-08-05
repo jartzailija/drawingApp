@@ -32,7 +32,7 @@ int main() {
         window.close();
       }
       sf::Vector2f mousePosition = (sf::Vector2f)sf::Mouse::getPosition(window);
-      if(canvas.isInsideborders(mousePosition)) {
+      if(canvas.isInsideborders(mousePosition) && !toolbar.isSomeModalOpen()) {
         canvas.tellMouseCoords(mousePosition);
       }
       else {
@@ -45,8 +45,8 @@ int main() {
     }
 
     window.clear(sf::Color(255, 255, 255));
-    toolbar.render();
     canvas.render();
+    toolbar.render();
     window.display();
   }
 }

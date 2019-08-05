@@ -5,8 +5,6 @@ Canvas::Canvas(sf::RenderWindow& pWindow, sf::Vector2<int> pTextureDimensions, i
   textureDimensions = pTextureDimensions;
   upperLimit = pUpperLimit;
   coords = calculateCoords(pTextureDimensions, pUpperLimit);
-  selectedColor = sf::Color::Green;
-  selectedToolName = toolbar.getSelectedTool().getName();
   wasMousePreviouslyPressed = false;
   //TODO: add try-catch
   if(!canvasTexture.create(textureDimensions.x, textureDimensions.y)) {
@@ -55,12 +53,12 @@ bool Canvas::isInsideborders(sf::Vector2f cursorCoords) const {
 void Canvas::tellMouseCoords(sf::Vector2f cursorCoords) {
   sf::Vector2f transformedCoords(cursorCoords.x - coords.left, cursorCoords.y - coords.top);
   if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-    toolbar.getSelectedTool().mouseDown(canvasTexture, transformedCoords, selectedColor);
+    toolbar.getSelectedTool().mouseDown(canvasTexture, transformedCoords, toolbar.getSelectedColor());
     wasMousePreviouslyPressed = true;
   }
   else {
     if(wasMousePreviouslyPressed) {
-      toolbar.getSelectedTool().mouseUp(canvasTexture, transformedCoords, selectedColor);
+      toolbar.getSelectedTool().mouseUp(canvasTexture, transformedCoords, toolbar.getSelectedColor());
     }
     wasMousePreviouslyPressed = false;
   }
@@ -87,3 +85,4 @@ Coordinates Canvas::calculateCoords(sf::Vector2i textureDimensions, int upperLim
 Coordinates Canvas::getCoords() {
   return coords;
 }
+

@@ -6,7 +6,6 @@ ToolBar::ToolBar(sf::RenderWindow& pWindow, int pWidth, int pToolbarHeight)
   width = pWidth;
   initTools();
   selectedTool = tools[0];
-  std::cout << "pencil " << selectedTool->getName() << std::endl;
 
   tgui::Theme theme{"src/themes/default.txt"};
   tgui::Theme::setDefault(&theme);
@@ -22,7 +21,6 @@ ToolBar::ToolBar(sf::RenderWindow& pWindow, int pWidth, int pToolbarHeight)
 Tool& ToolBar::getSelectedTool() {
   return *selectedTool;
 }
-
 
 ToolBar::~ToolBar() {
   for (auto it = tools.begin(); it != tools.end(); it++) {

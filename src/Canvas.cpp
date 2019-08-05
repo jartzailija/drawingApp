@@ -5,8 +5,9 @@ Canvas::Canvas(sf::RenderWindow& pWindow, sf::Vector2<int> pTextureDimensions, i
   textureDimensions = pTextureDimensions;
   upperLimit = pUpperLimit;
   coords = calculateCoords(pTextureDimensions, pUpperLimit);
-  selectedColor = sf::Color::White;
+  selectedColor = sf::Color::Green;
   selectedToolName = toolbar.getSelectedTool().getName();
+  wasMousePreviouslyPressed = false;
   //TODO: add try-catch
   if(!canvasTexture.create(textureDimensions.x, textureDimensions.y)) {
     std::cout << "Victor Mike" << std::endl;
@@ -19,7 +20,6 @@ Canvas::~Canvas() {
 }
 
 void Canvas::save(std::string fileName) {
-  preRender();
   sf::Texture texture = canvasTexture.getTexture();
   sf::Image image = texture.copyToImage();
   image.saveToFile(fileName);
@@ -54,45 +54,20 @@ bool Canvas::isInsideborders(sf::Vector2f cursorCoords) const {
 
 void Canvas::tellMouseCoords(sf::Vector2f cursorCoords) {
   sf::Vector2f transformedCoords(cursorCoords.x - coords.left, cursorCoords.y - coords.top);
-  std::cout << toolbar.getSelectedTool().getName() << std::endl;
-  if(toolbar.getSelectedTool().getName() == "PaintBucket") {
-    toolbar.getSelectedTool().draw(canvasTexture, transformedCoords, selectedColor);
+  if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+    toolbar.getSelectedTool().mouseDown(canvasTexture, transformedCoords, selectedColor);
+    wasMousePreviouslyPressed = true;
   }
-  else if(lineCoords.size() > 1) {
-    lineCoords.push_back(sf::Vertex(transformedCoords, selectedColor));
-    lineCoords.push_back(sf::Vertex(transformedCoords, selectedColor));
-  }
-}
-
-//TODO: hienosäädä
-void Canvas::preRender() {
-  if(toolbar.getSelectedTool().getName() == "PaintBucket") {
-    //std::cout << "Jeejee" << std::endl;
-  }
-
-  if(lineCoords.size() > 0) {
-    canvasTexture.draw(&lineCoords[0], lineCoords.size(), sf::Lines);
-  }
-  canvasTexture.display();
-}
-
-//Save changes as a solid part to the canvas 
-void Canvas::attachChanges() {
-  preRender();
-  sf::Texture texture = canvasTexture.getTexture();
-  sf::Sprite sprite(texture);
-  canvasTexture.draw(sprite);
-}
-
-void Canvas::checkStatus() {
-  if(selectedToolName != toolbar.getSelectedTool().getName()) {
-    selectedToolName = toolbar.getSelectedTool().getName();
-    attachChanges();
+  else {
+    if(wasMousePreviouslyPressed) {
+      toolbar.getSelectedTool().mouseUp(canvasTexture, transformedCoords, selectedColor);
+    }
+    wasMousePreviouslyPressed = false;
   }
 }
 
 void Canvas::render() {
-  preRender();
+  canvasTexture.display();
   sf::Sprite sprite(canvasTexture.getTexture());
   sprite.setOrigin(coords.left, -coords.top);
   window.draw(sprite);

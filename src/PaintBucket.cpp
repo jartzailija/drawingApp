@@ -6,7 +6,7 @@ PaintBucket::PaintBucket(std::string name) : Tool(name) {
 PaintBucket::~PaintBucket() {
 }
 
-void PaintBucket::draw(sf::RenderTexture& canvasTexture, sf::Vector2f cursorCoords, sf::Color selectedColor) {
+void PaintBucket::mouseDown(sf::RenderTexture& canvasTexture, sf::Vector2f cursorCoords, sf::Color selectedColor) {
   sf::Image image = canvasTexture.getTexture().copyToImage();
   sf::Color oldColor = image.getPixel(cursorCoords.x, cursorCoords.y);
   changePixels(cursorCoords.x, cursorCoords.y, &image, selectedColor);
@@ -17,6 +17,9 @@ void PaintBucket::draw(sf::RenderTexture& canvasTexture, sf::Vector2f cursorCoor
   sf::Sprite sprite(tmpTexture);
   canvasTexture.draw(sprite);
 
+}
+
+void PaintBucket::mouseUp(sf::RenderTexture& canvasTexture, sf::Vector2f cursorCoords, sf::Color selectedColor) {
 }
 
 void PaintBucket::changePixels(int x, int y, sf::Image* image, sf::Color selectedColor) {

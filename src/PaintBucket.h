@@ -13,7 +13,8 @@ class PaintBucket : public Tool {
   public:
   PaintBucket(std::string name);
   ~PaintBucket();
-  void draw(sf::RenderTexture& renderTexture, sf::Vector2f cursorCoords, sf::Color color) override;
+  void mouseDown(sf::RenderTexture& renderTexture, sf::Vector2f cursorCoords, sf::Color color) override;
+  void mouseUp(sf::RenderTexture& renderTexture, sf::Vector2f cursorCoords, sf::Color color) override;
 
   private:
   void changePixels(int x, int y, sf::Image* image, sf::Color selectedColor);

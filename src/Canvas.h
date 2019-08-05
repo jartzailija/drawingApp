@@ -36,7 +36,7 @@ class Canvas {
   sf::RenderTexture canvasTexture;
   ToolBar& toolbar;
   std::string selectedToolName;
-  std::vector<sf::Drawable> drawings; //TODO: jatka tästä!
+  bool wasMousePreviouslyPressed;
 };
 
 #endif

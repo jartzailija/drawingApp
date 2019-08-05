@@ -14,5 +14,3 @@ Tool::~Tool() {
 std::string Tool::getName() {
   return name;
 }
-
-//void Tool::draw(sf::RenderWindow& window, sf::Vector2f cursorCoords, sf::Color color) {}

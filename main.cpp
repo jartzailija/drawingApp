@@ -27,19 +27,18 @@ int main() {
 
   while (window.isOpen()) {
     sf::Event event;
-    canvas.checkStatus();
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
       }
-      if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        sf::Vector2f mousePosition = (sf::Vector2f)sf::Mouse::getPosition(window);
-        if(canvas.isInsideborders(mousePosition)) {
-          canvas.tellMouseCoords(mousePosition);
-        }
-        else {
-          canvas.save(fileName);
-        }
+      sf::Vector2f mousePosition = (sf::Vector2f)sf::Mouse::getPosition(window);
+      if(canvas.isInsideborders(mousePosition)) {
+        canvas.tellMouseCoords(mousePosition);
+      }
+      else {
+      }
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+        canvas.save(fileName);
       }
 
       toolbar.handleEvent(event);

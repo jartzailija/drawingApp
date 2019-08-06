@@ -6,7 +6,8 @@ ToolBar::ToolBar(sf::RenderWindow& pWindow, int pWidth, int pToolbarHeight)
   width = pWidth;
   initTools();
   selectedTool = tools[0];
-
+  canvas = nullptr;
+  saveName = "image.png";
   tgui::Theme theme{"src/themes/default.txt"};
   tgui::Theme::setDefault(&theme);
   try {
@@ -26,6 +27,14 @@ ToolBar::~ToolBar() {
   for (auto it = tools.begin(); it != tools.end(); it++) {
     delete (*it);
   }
+}
+
+void ToolBar::setCanvas(Canvas* pCanvas) {
+  canvas = pCanvas;
+}
+
+void ToolBar::setFilename(std::string pSaveName) {
+  saveName = pSaveName;
 }
 
 void ToolBar::initTools() {
@@ -61,22 +70,31 @@ void ToolBar::loadTools(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
 }
 
 void ToolBar::loadOtherButtons(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
-  auto button = tgui::Button::create("Color");
-  button->setSize(100, 20);
-  button->setPosition(0, 20);
-  button->connect("pressed", [=](){
+  auto colorButton = tgui::Button::create("Color");
+  colorButton->setSize(100, 20);
+  colorButton->setPosition(0, 20);
+  colorButton->connect("pressed", [=](){
     colorModal->setVisible(true);
     someModalOpen = true;
   });   
-  panel->add(button);
+  panel->add(colorButton);
+
+  auto saveButton = tgui::Button::create("Save");
+  saveButton->setSize(100, 20);
+  saveButton->setPosition(100, 20);
+  saveButton->connect("pressed", [=](){
+    if(canvas != nullptr) {
+      canvas->save(saveName);
+    }
+  });   
+  panel->add(saveButton);
 }
 
 void ToolBar::loadColorSelector(tgui::Gui& gui) {
   
-  colorModal = tgui::ChildWindow::create();
+  colorModal = tgui::ChildWindow::create("Select color", tgui::ChildWindow::TitleButton::None);
   colorModal->setSize(100, 50);
   colorModal->setPosition(200, 0);
-  colorModal->setTitle("Select color");
   colorModal->setVisible(false);
 
   auto colorPanel = tgui::Panel::create();
@@ -90,7 +108,6 @@ void ToolBar::loadColorSelector(tgui::Gui& gui) {
   colorPanel->add(createColorButton(gui, 1, 1, tgui::Color::Yellow));
   colorPanel->add(createColorButton(gui, 2, 1, tgui::Color::Magenta));
   colorPanel->add(createColorButton(gui, 3, 1, tgui::Color::Cyan));
-  
 
   colorModal->add(colorPanel);
   gui.add(colorModal);

@@ -1,6 +1,9 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+//A forward declaration to enable a circular reference
+class ToolBar;
+
 #include <string>
 #include <iostream>
 #include <vector>

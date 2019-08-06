@@ -8,7 +8,6 @@
 #include "src/Canvas.h"
 #include "src/Pencil.h"
 #include "src/ToolBar.h"
-#include "src/State.h"
 
 const int width = 1280;
 const int height = 800;
@@ -19,9 +18,10 @@ const std::string fileName = "image.png";
 int main() {
   sf::RenderWindow window({width, height}, "Window", sf::Style::Close);
   ToolBar toolbar(window, width, toolbarHeight);
-  std::vector<sf::Vertex> lineCoords;
   sf::Color lineColor = sf::Color::Black;
   Canvas canvas(window, canvasDimensions, toolbarHeight, toolbar);
+  toolbar.setCanvas(&canvas);
+  toolbar.setFilename(fileName);
 
   canvas.loadImage(fileName);
 
@@ -34,11 +34,6 @@ int main() {
       sf::Vector2f mousePosition = (sf::Vector2f)sf::Mouse::getPosition(window);
       if(canvas.isInsideborders(mousePosition) && !toolbar.isSomeModalOpen()) {
         canvas.tellMouseCoords(mousePosition);
-      }
-      else {
-      }
-      if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-        canvas.save(fileName);
       }
 
       toolbar.handleEvent(event);

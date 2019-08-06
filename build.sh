@@ -1,1 +1,1 @@
- g++ -std=c++14 main.cpp src/Canvas.cpp src/Pencil.cpp src/Tool.cpp src/ToolBar.cpp src/PaintBucket.cpp src/State.cpp src/coordinates.cpp -ltgui -lsfml-graphics -lsfml-window -lsfml-system -o program && ./program
+ g++ -std=c++14 main.cpp src/Canvas.cpp src/Pencil.cpp src/Tool.cpp src/ToolBar.cpp src/PaintBucket.cpp src/coordinates.cpp -ltgui -lsfml-graphics -lsfml-window -lsfml-system -o program && ./program

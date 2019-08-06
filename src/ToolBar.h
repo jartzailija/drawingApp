@@ -1,6 +1,9 @@
 #ifndef TOOLBAR_H
 #define TOOLBAR_H
 
+//A forward declaration to enable a circular reference
+class Canvas;
+
 //#include <string>
 #include <iostream>
 #include <vector>
@@ -10,6 +13,7 @@
 #include "Tool.h"
 #include "Pencil.h"
 #include "PaintBucket.h"
+#include "Canvas.h"
 
 class ToolBar {
   public:
@@ -20,6 +24,8 @@ class ToolBar {
   void handleEvent(sf::Event event);
   bool isSomeModalOpen();
   sf::Color getSelectedColor();
+  void setCanvas(Canvas* canvas);
+  void setFilename(std::string saveName);
 
   private:
   void initTools();
@@ -40,6 +46,8 @@ class ToolBar {
   std::shared_ptr<tgui::ChildWindow> colorModal;
   bool someModalOpen;
   sf::Color selectedColor;
+  Canvas* canvas;
+  std::string saveName;
 };
 
 #endif

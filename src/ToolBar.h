@@ -4,7 +4,6 @@
 //A forward declaration to enable a circular reference
 class Canvas;
 
-//#include <string>
 #include <iostream>
 #include <vector>
 #include <TGUI/TGUI.hpp>

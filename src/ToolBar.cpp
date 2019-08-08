@@ -1,5 +1,8 @@
 #include "ToolBar.h"
 
+const int btnHeight = 25;
+const int btnWidth = 80;
+
 ToolBar::ToolBar(sf::RenderWindow& pWindow, int pWidth, int pToolbarHeight)
 : window(pWindow), gui(pWindow) {
   toolbarHeight = pToolbarHeight;
@@ -40,7 +43,7 @@ void ToolBar::setFilename(std::string pSaveName) {
 void ToolBar::initTools() {
   someModalOpen = false;
   Pencil* pencil = new Pencil("Pencil");
-  PaintBucket* paintBucket = new PaintBucket("PaintBucket");
+  PaintBucket* paintBucket = new PaintBucket("Color Fill");
   tools.push_back(pencil);
   tools.push_back(paintBucket);
 }
@@ -61,7 +64,7 @@ void ToolBar::loadTools(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
   int i = 0;
   for (auto itr = tools.begin(); itr != tools.end(); itr++) {
     auto button = tgui::Button::create((*itr)->getName());
-    button->setSize(100, 20);
+    button->setSize(btnWidth, btnHeight);
     button->setPosition((i) * 100, 0);
     button->connect("pressed", [=](){selectTool(*itr);});
     panel->add(button);
@@ -70,8 +73,8 @@ void ToolBar::loadTools(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
 }
 
 void ToolBar::loadOtherButtons(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
-  auto colorButton = tgui::Button::create("Color");
-  colorButton->setSize(100, 20);
+  auto colorButton = tgui::Button::create("Select color");
+  colorButton->setSize(btnWidth, btnHeight);
   colorButton->setPosition(0, 20);
   colorButton->connect("pressed", [=](){
     colorModal->setVisible(true);
@@ -80,7 +83,7 @@ void ToolBar::loadOtherButtons(tgui::Gui& gui, std::shared_ptr<tgui::Panel> pane
   panel->add(colorButton);
 
   auto saveButton = tgui::Button::create("Save");
-  saveButton->setSize(100, 20);
+  saveButton->setSize(btnWidth, btnHeight);
   saveButton->setPosition(100, 20);
   saveButton->connect("pressed", [=](){
     if(canvas != nullptr) {

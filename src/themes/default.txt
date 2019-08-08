@@ -7,8 +7,10 @@ ColorModal {
 }
 
 Button {
-	BackGroundColor = rgb(255, 255, 255);
+	BackGroundColor = rgb(201, 201, 201);
 	TextColor = rgb(00, 00, 00);
+	BorderColor = Black;
+	Borders = (1, 1, 1, 1);
 }
 
 ChildWindow {

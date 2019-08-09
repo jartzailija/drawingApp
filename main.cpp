@@ -11,7 +11,7 @@
 
 const int width = 1280;
 const int height = 800;
-const int toolbarHeight = 50;
+const int toolbarHeight = 30;
 const sf::Vector2i canvasDimensions = sf::Vector2i(width, height - toolbarHeight);
 const std::string fileName = "image.png";
 

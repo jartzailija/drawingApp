@@ -1,6 +1,6 @@
 #include "ToolBar.h"
 
-const int btnHeight = 25;
+const int btnHeight = 30;
 const int btnWidth = 80;
 
 ToolBar::ToolBar(sf::RenderWindow& pWindow, int pWidth, int pToolbarHeight)
@@ -65,7 +65,7 @@ void ToolBar::loadTools(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
   for (auto itr = tools.begin(); itr != tools.end(); itr++) {
     auto button = tgui::Button::create((*itr)->getName());
     button->setSize(btnWidth, btnHeight);
-    button->setPosition((i) * 100, 0);
+    button->setPosition((i) * btnWidth, 0);
     button->connect("pressed", [=](){selectTool(*itr);});
     panel->add(button);
     i++;
@@ -73,9 +73,10 @@ void ToolBar::loadTools(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
 }
 
 void ToolBar::loadOtherButtons(tgui::Gui& gui, std::shared_ptr<tgui::Panel> panel) {
+  int btnCountBefore = tools.size();
   auto colorButton = tgui::Button::create("Select color");
   colorButton->setSize(btnWidth, btnHeight);
-  colorButton->setPosition(0, 20);
+  colorButton->setPosition(btnCountBefore * btnWidth, 0);
   colorButton->connect("pressed", [=](){
     colorModal->setVisible(true);
     someModalOpen = true;
@@ -84,7 +85,7 @@ void ToolBar::loadOtherButtons(tgui::Gui& gui, std::shared_ptr<tgui::Panel> pane
 
   auto saveButton = tgui::Button::create("Save");
   saveButton->setSize(btnWidth, btnHeight);
-  saveButton->setPosition(100, 20);
+  saveButton->setPosition((btnCountBefore + 1) * btnWidth, 0);
   saveButton->connect("pressed", [=](){
     if(canvas != nullptr) {
       canvas->save(saveName);

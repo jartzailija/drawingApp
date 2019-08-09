@@ -1,5 +1,5 @@
 Panel {
-	BackGroundColor = rgb(255, 00, 00);
+	BackGroundColor = rgb(150, 150, 150);
 }
 
 ColorModal {

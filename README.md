@@ -12,5 +12,5 @@ sudo apt-get install libtgui-dev
 ~~~
 
 ## More info:
-https://www.sfml-dev.org/
-https://tgui.eu/tutorials/0.8/linux/
+* https://www.sfml-dev.org/
+* https://tgui.eu/tutorials/0.8/linux/
